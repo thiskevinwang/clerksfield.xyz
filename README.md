@@ -13,7 +13,8 @@ Minimal Next.js 16 + Clerk app for testing FAPI proxying.
 2. Add your Clerk keys from the [Clerk Dashboard](https://dashboard.clerk.com).
 
 3. Enable proxying in the Clerk Dashboard and set the proxy URL to `/_clerk`.
-   On Vercel, keep `NEXT_PUBLIC_CLERK_PROXY_URL` scoped to Preview only; do not set it for Production.
+   Do not set `NEXT_PUBLIC_CLERK_PROXY_URL`; this app passes `proxyUrl`
+   from `app/layout.tsx` so it can be controlled per request.
 
 4. Run the dev server:
 
@@ -23,9 +24,17 @@ Minimal Next.js 16 + Clerk app for testing FAPI proxying.
 
 ## FAPI proxy
 
-Frontend API requests are proxied through `/_clerk` via `frontendApiProxy` in `proxy.ts` for local/development and Vercel Preview deployments. Vercel Production deployments leave `proxyUrl` empty and use direct Frontend API requests.
+The `/_clerk` path is always served by the App Router route handler in `app/%5Fclerk/[[...path]]/route.ts`, so it can be visited in both Vercel Preview and Production.
 
-If you use App Router route handlers instead of middleware, create the route folder as `app/%5Fclerk/[...path]/route.ts` so Next.js treats it as a literal `/_clerk` segment (folders starting with `_` are private by default).
+Preview and local/development deployments default Clerk's `proxyUrl` to `/_clerk`, so Clerk actively uses the proxy. Production deployments default to direct Frontend API requests, while `/_clerk` remains passively available.
+
+The browser cookie `clerk_use_proxy` can override the deployment default:
+
+- `true` forces Clerk to use `/_clerk`
+- `false` forces direct Frontend API requests
+- unset uses the deployment default
+
+The home page toggle writes that cookie with `js-cookie` and reloads the page so the server layout can pass the new `proxyUrl` to `ClerkProvider`.
 
 ## Stack
 

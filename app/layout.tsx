@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { clerkProxyUrl } from "@/clerk-proxy";
+import { clerkProxyCookieName, getClerkProxyUrl } from "@/clerk-proxy";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,11 +20,16 @@ export const metadata: Metadata = {
   description: "Clerk + Next.js FAPI proxy test app",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const clerkProxyUrl = getClerkProxyUrl(
+    cookieStore.get(clerkProxyCookieName)?.value,
+  );
+
   return (
     <ClerkProvider proxyUrl={clerkProxyUrl}>
       <html lang="en">

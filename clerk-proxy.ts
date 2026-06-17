@@ -1,16 +1,41 @@
-const vercelEnv = process.env.VERCEL_ENV;
+import { getClerkProxyCookiePreference } from "./clerk-proxy-cookie";
+
+export {
+  clerkProxyCookieName,
+  clerkProxyCookieValues,
+  getClerkProxyCookiePreference,
+} from "./clerk-proxy-cookie";
 
 export const clerkProxyPath = "/_clerk";
 
-export const shouldUseClerkProxy =
-  vercelEnv === "preview" || vercelEnv === "development" || !vercelEnv;
+const vercelEnv = process.env.VERCEL_ENV;
+const envsThatUseProxy = [
+  "preview",
+  // "production"
+];
+export const shouldUseClerkProxyUrl =
+  !vercelEnv || envsThatUseProxy.includes(vercelEnv);
 
-if (!shouldUseClerkProxy) {
-  // Clerk auto-derives /__clerk for Vercel production live-key builds unless these are empty.
-  process.env.NEXT_PUBLIC_CLERK_PROXY_URL = "";
-  process.env.VERCEL_TARGET_ENV = "";
+export function shouldUseClerkProxyUrlForCookie(
+  cookieValue: string | null | undefined,
+) {
+  const preference = getClerkProxyCookiePreference(cookieValue);
+
+  if (preference === "enabled") {
+    return true;
+  }
+
+  if (preference === "disabled") {
+    return false;
+  }
+
+  return shouldUseClerkProxyUrl;
 }
 
-export const clerkProxyUrl = shouldUseClerkProxy
-  ? clerkProxyPath
-  : undefined;
+export function getClerkProxyUrl(cookieValue?: string | null) {
+  return shouldUseClerkProxyUrlForCookie(cookieValue)
+    ? clerkProxyPath
+    : undefined;
+}
+
+export const clerkProxyUrl = getClerkProxyUrl();

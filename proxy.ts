@@ -1,17 +1,15 @@
-import { clerkProxyPath, shouldUseClerkProxy } from "./clerk-proxy";
 import { clerkMiddleware } from "@clerk/nextjs/server";
 
 export default clerkMiddleware({
+  // The FAPI proxy is served by app/%5Fclerk/[[...path]]/route.ts.
   frontendApiProxy: {
-    enabled: shouldUseClerkProxy,
-    path: clerkProxyPath,
+    enabled: false,
   },
 });
 
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next|_clerk|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     "/(api|trpc)(.*)",
-    "/_clerk/(.*)",
   ],
 };

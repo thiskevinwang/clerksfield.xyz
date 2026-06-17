@@ -1,13 +1,11 @@
 import type { NextConfig } from "next";
-import { clerkProxyPath, shouldUseClerkProxy } from "./clerk-proxy";
 
 const nextConfig: NextConfig = {
   env: {
-    NEXT_PUBLIC_CLERK_PROXY_URL: shouldUseClerkProxy ? clerkProxyPath : "",
-    // Prevent Clerk from auto-deriving /__clerk for Vercel production live-key builds.
-    VERCEL_TARGET_ENV: shouldUseClerkProxy
-      ? (process.env.VERCEL_TARGET_ENV ?? "")
-      : "",
+    // app/layout.tsx passes proxyUrl from the request cookie. Keep Clerk's
+    // env and Vercel auto-proxy fallbacks empty so the cookie can disable it.
+    NEXT_PUBLIC_CLERK_PROXY_URL: "",
+    VERCEL_TARGET_ENV: "",
   },
 };
 
