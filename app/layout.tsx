@@ -26,16 +26,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = await cookies();
-  const clerkProxyUrl = getClerkProxyUrl(
-    cookieStore.get(clerkProxyCookieName)?.value,
-  );
+  const clerkProxyUrl = getClerkProxyUrl(cookieStore.get(clerkProxyCookieName)?.value);
 
   return (
-    <ClerkProvider proxyUrl={clerkProxyUrl}>
+    <ClerkProvider
+      proxyUrl={clerkProxyUrl}
+      // ____internal_clerkJSUrl={""}
+      // __internal_clerkUIUrl={""}
+    >
       <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}
         </body>
       </html>

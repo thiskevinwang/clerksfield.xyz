@@ -24,9 +24,7 @@ export default async function Home() {
           {shouldUseProxy ? (
             <>
               Clerk + Next.js 16 with FAPI proxied at{" "}
-              <code className="rounded bg-zinc-100 px-1.5 py-0.5">
-                {clerkProxyPath}
-              </code>
+              <code className="rounded bg-zinc-100 px-1.5 py-0.5">{clerkProxyPath}</code>
             </>
           ) : (
             "Clerk + Next.js 16 with direct FAPI requests"

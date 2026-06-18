@@ -13,12 +13,9 @@ const envsThatUseProxy = [
   "preview",
   // "production"
 ];
-export const shouldUseClerkProxyUrl =
-  !vercelEnv || envsThatUseProxy.includes(vercelEnv);
+export const shouldUseClerkProxyUrl = !vercelEnv || envsThatUseProxy.includes(vercelEnv);
 
-export function shouldUseClerkProxyUrlForCookie(
-  cookieValue: string | null | undefined,
-) {
+export function shouldUseClerkProxyUrlForCookie(cookieValue: string | null | undefined) {
   const preference = getClerkProxyCookiePreference(cookieValue);
 
   if (preference === "enabled") {
@@ -33,9 +30,7 @@ export function shouldUseClerkProxyUrlForCookie(
 }
 
 export function getClerkProxyUrl(cookieValue?: string | null) {
-  return shouldUseClerkProxyUrlForCookie(cookieValue)
-    ? clerkProxyPath
-    : undefined;
+  return shouldUseClerkProxyUrlForCookie(cookieValue) ? clerkProxyPath : undefined;
 }
 
 export const clerkProxyUrl = getClerkProxyUrl();

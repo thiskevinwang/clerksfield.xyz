@@ -54,16 +54,13 @@ export function ClerkProxyToggle({
   initialPreference,
   proxyPath,
 }: ClerkProxyToggleProps) {
-  const [preference, setPreference] =
-    useState<ClerkProxyCookiePreference>(initialPreference);
+  const [preference, setPreference] = useState<ClerkProxyCookiePreference>(initialPreference);
   const pendingEffectiveShouldUseProxy = shouldUseProxyForPreference(
     preference,
     defaultShouldUseProxy,
   );
   const displayedShouldUseProxy =
-    preference === initialPreference
-      ? effectiveShouldUseProxy
-      : pendingEffectiveShouldUseProxy;
+    preference === initialPreference ? effectiveShouldUseProxy : pendingEffectiveShouldUseProxy;
   const cookieDisplay =
     preference === "default"
       ? "unset"
@@ -98,9 +95,7 @@ export function ClerkProxyToggle({
             <code>{clerkProxyCookieName}</code>: {cookieDisplay}
           </p>
         </div>
-        <div className="text-sm font-medium">
-          {displayedShouldUseProxy ? proxyPath : "Direct"}
-        </div>
+        <div className="text-sm font-medium">{displayedShouldUseProxy ? proxyPath : "Direct"}</div>
       </div>
 
       <div className="mt-4 grid grid-cols-3 overflow-hidden rounded-lg border border-zinc-200 text-sm">
@@ -112,9 +107,7 @@ export function ClerkProxyToggle({
               aria-pressed={selected}
               className={[
                 "min-h-10 border-r border-zinc-200 px-3 font-medium transition last:border-r-0",
-                selected
-                  ? "bg-black text-white"
-                  : "bg-white text-zinc-700 hover:bg-zinc-50",
+                selected ? "bg-black text-white" : "bg-white text-zinc-700 hover:bg-zinc-50",
               ].join(" ")}
               key={option.value}
               onClick={() => updatePreference(option.value)}
