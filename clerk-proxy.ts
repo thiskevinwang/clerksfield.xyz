@@ -6,7 +6,18 @@ export {
   getClerkProxyCookiePreference,
 } from "./clerk-proxy-cookie";
 
-export const clerkProxyPath = process.env.NEXT_PUBLIC_PROXY_URL;
+const defaultClerkProxyPath = "/_clerk";
+
+function getConfiguredClerkProxyUrl() {
+  return process.env.NEXT_PUBLIC_PROXY_URL || defaultClerkProxyPath;
+}
+
+function getClerkProxyPath() {
+  return new URL(getConfiguredClerkProxyUrl(), "http://localhost").pathname;
+}
+
+export const clerkProxyUrl = getConfiguredClerkProxyUrl();
+export const clerkProxyPath = getClerkProxyPath();
 
 const vercelEnv = process.env.VERCEL_ENV || "development";
 const envsThatUseProxy: string[] = [
@@ -30,7 +41,5 @@ export function shouldUseClerkProxyUrlForCookie(cookieValue: string | null | und
 }
 
 export function getClerkProxyUrl(cookieValue?: string | null) {
-  return shouldUseClerkProxyUrlForCookie(cookieValue) ? clerkProxyPath : undefined;
+  return shouldUseClerkProxyUrlForCookie(cookieValue) ? clerkProxyUrl : undefined;
 }
-
-export const clerkProxyUrl = getClerkProxyUrl();

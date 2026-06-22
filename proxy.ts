@@ -1,5 +1,5 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
-import { clerkProxyPath, shouldUseClerkProxyUrlForCookie } from "./clerk-proxy";
+import { clerkProxyUrl, shouldUseClerkProxyUrlForCookie } from "./clerk-proxy";
 import { clerkProxyCookieName } from "./clerk-proxy-cookie";
 
 export default clerkMiddleware(
@@ -13,7 +13,7 @@ export default clerkMiddleware(
     );
     // this is to make sure handshake happens over proxy
     return {
-      proxyUrl: shouldUseProxy ? clerkProxyPath : undefined,
+      proxyUrl: shouldUseProxy ? clerkProxyUrl : undefined,
       debug: true,
     };
   },
