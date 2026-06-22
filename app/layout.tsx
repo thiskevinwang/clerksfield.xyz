@@ -29,11 +29,7 @@ export default async function RootLayout({
   const clerkProxyUrl = getClerkProxyUrl(cookieStore.get(clerkProxyCookieName)?.value);
 
   return (
-    <ClerkProvider
-      proxyUrl={clerkProxyUrl}
-      // ____internal_clerkJSUrl={""}
-      // __internal_clerkUIUrl={""}
-    >
+    <ClerkProvider proxyUrl={clerkProxyUrl}>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}

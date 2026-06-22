@@ -6,14 +6,14 @@ export {
   getClerkProxyCookiePreference,
 } from "./clerk-proxy-cookie";
 
-export const clerkProxyPath = "/_clerk";
+export const clerkProxyPath = process.env.NEXT_PUBLIC_PROXY_URL;
 
-const vercelEnv = process.env.VERCEL_ENV;
-const envsThatUseProxy = [
-  "preview",
+const vercelEnv = process.env.VERCEL_ENV || "development";
+const envsThatUseProxy: string[] = [
+  // "preview",
   // "production"
 ];
-export const shouldUseClerkProxyUrl = !vercelEnv || envsThatUseProxy.includes(vercelEnv);
+export const shouldUseClerkProxyUrl = envsThatUseProxy.includes(vercelEnv) || false;
 
 export function shouldUseClerkProxyUrlForCookie(cookieValue: string | null | undefined) {
   const preference = getClerkProxyCookiePreference(cookieValue);

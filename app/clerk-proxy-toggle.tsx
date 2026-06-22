@@ -12,7 +12,7 @@ type ClerkProxyToggleProps = {
   defaultShouldUseProxy: boolean;
   effectiveShouldUseProxy: boolean;
   initialPreference: ClerkProxyCookiePreference;
-  proxyPath: string;
+  proxyPath?: string;
 };
 
 const options: Array<{
@@ -95,7 +95,7 @@ export function ClerkProxyToggle({
             <code>{clerkProxyCookieName}</code>: {cookieDisplay}
           </p>
         </div>
-        <div className="text-sm font-medium">{displayedShouldUseProxy ? proxyPath : "Direct"}</div>
+        <div className="text-sm font-medium">{displayedShouldUseProxy ? proxyPath : "Hosted"}</div>
       </div>
 
       <div className="mt-4 grid grid-cols-3 overflow-hidden rounded-lg border border-zinc-200 text-sm">
