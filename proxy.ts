@@ -21,11 +21,11 @@ export default clerkMiddleware(
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Do not include "/_clerk/(.*)", and also exclude _clerk from the broad first matcher.
+    // The route handler will own proxied FAPI requests,
+    // rather than proxy.ts (aka middleware).
+    "/((?!_next|_clerk|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
     "/(api|trpc)(.*)",
-    // Always run for Clerk-specific frontend API routes
-    "/_clerk/(.*)",
   ],
 };
