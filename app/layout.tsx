@@ -26,7 +26,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = await cookies();
-  const clerkProxyUrl = getClerkProxyUrl(cookieStore.get(clerkProxyCookieName)?.value);
+  const clerkProxyUrl = getClerkProxyUrl(
+    cookieStore.get(clerkProxyCookieName)?.value,
+  );
 
   return (
     <ClerkProvider proxyUrl={clerkProxyUrl}>
