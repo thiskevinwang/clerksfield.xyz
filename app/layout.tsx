@@ -31,7 +31,9 @@ export default async function RootLayout({
   return (
     <ClerkProvider proxyUrl={clerkProxyUrl}>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           {children}
         </body>
       </html>
