@@ -19,12 +19,16 @@ export default async function Home() {
   return (
     <main className="mx-auto flex min-h-screen max-w-xl flex-col items-center justify-center gap-8 px-6">
       <div className="text-center">
-        <h1 className="text-3xl font-semibold tracking-tight">clerksfield.ai</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {process.env.NEXT_PUBLIC_DOMAIN}
+        </h1>
         <p className="mt-2 text-zinc-600">
           {shouldUseProxy ? (
             <>
               Clerk + Next.js 16 with FAPI proxied at{" "}
-              <code className="rounded bg-zinc-100 px-1.5 py-0.5">{clerkProxyPath}</code>
+              <code className="rounded bg-zinc-100 px-1.5 py-0.5">
+                {clerkProxyPath}
+              </code>
             </>
           ) : (
             "Clerk + Next.js 16 with direct FAPI requests"
