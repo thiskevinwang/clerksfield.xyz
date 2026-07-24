@@ -30,8 +30,30 @@ export default async function RootLayout({
     cookieStore.get(clerkProxyCookieName)?.value,
   );
 
+  const internalClerkJSUrl = process.env.NEXT_PUBLIC_INTERNAL_CLERK_JS_URL;
+  const internalClerkUIUrl = process.env.NEXT_PUBLIC_INTERNAL_CLERK_UI_URL;
+
+  let allowedRedirectOrigins = [];
+  if (process.env.NEXT_PUBLIC_ALLOWED_REDIRECT_ORIGINS) {
+    try {
+      allowedRedirectOrigins = JSON.parse(
+        process.env.NEXT_PUBLIC_ALLOWED_REDIRECT_ORIGINS,
+      );
+    } catch (error) {
+      console.error(
+        "Failed to parse NEXT_PUBLIC_ALLOWED_REDIRECT_ORIGINS:",
+        error,
+      );
+    }
+  }
   return (
-    <ClerkProvider proxyUrl={clerkProxyUrl}>
+    <ClerkProvider
+      proxyUrl={clerkProxyUrl}
+      allowedRedirectOrigins={allowedRedirectOrigins}
+      // @ts-expect-error - ignore
+      __internal_clerkJSUrl={internalClerkJSUrl}
+      __internal_clerkUIUrl={internalClerkUIUrl}
+    >
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
