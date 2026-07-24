@@ -14,7 +14,7 @@ export default clerkMiddleware(
     // this is to make sure handshake happens over proxy
     return {
       proxyUrl: shouldUseProxy ? clerkProxyUrl : undefined,
-      debug: true,
+      // debug: true,
     };
   },
 );
